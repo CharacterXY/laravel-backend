@@ -17,9 +17,9 @@ Route::get('/users/{number}', [UserController::class, 'showUsersByNumber']);
 Route::get('/user/{id}', [UserController::class, 'getUserById']);
 
 // Ruta za update korisnika po ID-u
-Route::middleware('auth.token')->group(function () {
-    Route::put('/user/{id}', [UserController::class, 'updateUser']);
-});
+
+Route::put('/users/{id}', [UserController::class, 'updateUser']);
+
 Route::put('/user/{id}', [UserController::class, 'updateUser'], );
 // Ruta za brisanje korisnika
 // Ruta za registraciju korisnika
