@@ -55,40 +55,35 @@ class UserController extends Controller
 
         return response()->json($user);
     }
-
     public function updateUser(Request $request, $id) 
-{
-    $user = User::find($id);
-
-  
-
-    if (!$user) {
-        return response()->json(['message' => 'Korisnik nije pronađen.'], 404);
+    {
+        $user = User::findOrFail($id);
+    
+        $validated_data = $request->validate([
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'email' => 'required|email|max:255',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'password' => 'nullable|string|min:6', 
+            'isActive' => 'boolean',
+        ]);
+    
+        if (!empty($validated_data['password'])) {
+            $validated_data['password'] = bcrypt($validated_data['password']);
+        } else {
+            unset($validated_data['password']);  
+        }
+    
+        $user->update($validated_data);
+    
+        return response()->json([
+            'message' => 'Korisnik je uspješno ažuriran.',
+            'user' => $user,
+        ], 200);
     }
-
-    $validated_data = $request->validate([
-        'name' => 'required|string|max:255',
-        'lastname' => 'required|string|max:255',
-        'username' => 'required|string|max:255|unique:users,username,' . $id,
-        'email' => 'required|email|max:255',
-        'address' => 'required|string|max:255',
-        'phone' => 'required|string|max:20',
-        
-    ]);
-
-
-    if ($request->has('isActive')) {
-        $validated_data['is_active'] = $request->isActive ? 1 : 0;
-    }
-
-    $user->update($validated_data);
-
-
-    return response()->json([
-        'message' => 'Korisnik je uspješno ažuriran.',
-        'user' => $user,
-    ], 200);
-}
+    
 
 
 }

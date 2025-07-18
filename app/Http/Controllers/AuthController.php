@@ -32,7 +32,7 @@ class AuthController extends Controller
                 'phone' => $validated_data['phone'],
                 'password' => Hash::make($validated_data['password']),
                 'role' => 'user',
-                'isActive' => 1,
+                //'isActive' => 1,
             ]);
     
             return response()->json([
