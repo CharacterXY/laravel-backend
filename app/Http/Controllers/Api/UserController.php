@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 
-
 class UserController extends Controller
 {
     // Ovo je kontroler koji ce se koristiti za API endpointove koji ce vracati sve korisnike jer ne koristimo blade engine nakon refresha vec cemo koristiti Vue.js za instant dohvacanje.
@@ -55,6 +54,7 @@ class UserController extends Controller
 
         return response()->json($user);
     }
+
     public function updateUser(Request $request, $id) 
     {
         $user = User::findOrFail($id);

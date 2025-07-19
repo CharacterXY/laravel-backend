@@ -52,15 +52,13 @@ class AuthController extends Controller
         // Prvovjeriti da li postoji korisnik sa tim email-om
         if(User:: where('email', $request->email)->exists()) {
             $user = User::where('email', $request->email)->first();
-            // Provjeriti da li je korisnik admin
             // Provjeriti da li je unesena lozinka ispravna
-     
-
+            $token = Str::random(60);
+            $user->api_token = $token;
+            $user->save();
             if(Hash::check($request->password, $user->password)) {
                 // Ako je lozinka ispravna, vratiti korisnika
 
-             
-            
                 return response()->json([
                     'message' => 'Uspješno ste se prijavili.',
                     'user' => [
@@ -71,13 +69,14 @@ class AuthController extends Controller
                         'isActive' => $user->isActive,
                         'name' => $user->name,
                         'lastname' => $user->lastname,
+                        'token' => $user->api_token,
                  
                     ],
                
                 ], 200);
             } else {
                 return response()->json([
-                    'message' => 'Neispravna lozinka.',h
+                    'message' => 'Neispravna lozinka.',
                 ], 401);
             }
         } else {
