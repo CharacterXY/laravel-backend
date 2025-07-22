@@ -5,7 +5,7 @@ return [
 
     'allowed_methods' => ['*'], // Omogući sve HTTP metode
 
-    'allowed_origins' => ['*', ], // Omogući sve domene (ili specificiraj domene)
+    'allowed_origins' => ['*'], // Omogući sve domene (ili specificiraj domene)
 
     'allowed_origins_patterns' => [],
 
